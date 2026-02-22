@@ -74,8 +74,9 @@ public final class JCD {
         shutdownLatch = new CountDownLatch(1);
 
         for (final Monitor monitor : config.monitors()) {
-            LOGGER.info("[{}] Monitoring {} every {}s{}", monitor.name(), monitor.url(), monitor.interval(), monitor.path() != null ? " (path: " + monitor.path() + ")" : "");
-            executor.scheduleAtFixedRate(() -> this.check(monitor), 0, monitor.interval(), TimeUnit.SECONDS);
+            final long intervalSeconds = monitor.intervalInSeconds();
+            LOGGER.info("[{}] Monitoring {} every {} ({}s){}", monitor.name(), monitor.url(), monitor.interval(), intervalSeconds, monitor.path() != null ? " (path: " + monitor.path() + ")" : "");
+            executor.scheduleAtFixedRate(() -> this.check(monitor), 0, intervalSeconds, TimeUnit.SECONDS);
         }
 
         Runtime.getRuntime().addShutdownHook(new Thread(this::stop));
@@ -171,7 +172,7 @@ public final class JCD {
         final Monitor monitor = new Monitor(
             "minecraft-versions",
             "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json",
-            300,
+            "1d",
             "$.latest.release",
             List.of(
                 "echo 'New Minecraft Version: ${NEW_VALUE}'",

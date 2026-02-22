@@ -12,7 +12,7 @@ or use the [releases tab](https://github.com/florianreuth/java-change-detector/r
 
 1. Run the JAR file:
    ```bash
-   java -jar java-change-detector-1.0.0.jar
+   java -jar java-change-detector.jar
    ```
 
 2. Edit the generated `config.json` file to configure your monitors
@@ -29,7 +29,7 @@ Edit `config.json`:
         {
             "name": "minecraft-versions",
             "url": "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json",
-            "interval": 300,
+            "interval": "1d",
             "path": "$.latest.release",
             "execution": [
                 "echo 'New version: ${NEW_VALUE}'"
@@ -43,7 +43,13 @@ Edit `config.json`:
 
 - `name` - Monitor identifier
 - `url` - URL to check
-- `interval` - Check interval in seconds
+- `interval` - Check interval (e.g., `30s`, `5m`, `1h`, `1d`). Supported units:
+  - `s` - seconds
+  - `m` - minutes
+  - `h` - hours
+  - `d` - days
+  
+  Minimum interval: 10 seconds
 - `path` - JsonPath to extract value (optional, e.g., `$.latest.release`)
 - `execution` - Commands to run on change (optional, can use `${OLD_VALUE}` and `${NEW_VALUE}`)
 
@@ -53,7 +59,7 @@ Edit `config.json`:
 {
     "name": "my-app",
     "url": "https://api.github.com/repos/owner/repo/releases/latest",
-    "interval": 600,
+    "interval": "10m",
     "path": "$.tag_name"
 }
 ```
