@@ -1,5 +1,5 @@
-import de.florianreuth.baseproject.configureApplication
-import de.florianreuth.baseproject.configureShadedDependencies
+import de.florianreuth.baseproject.core.configureApplication
+import de.florianreuth.baseproject.core.configureShadedDependencies
 import de.florianreuth.baseproject.setupProject
 
 plugins {
