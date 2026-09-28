@@ -1,20 +1,13 @@
-import de.florianreuth.baseproject.core.configureApplication
-import de.florianreuth.baseproject.core.configureShadedDependencies
-import de.florianreuth.baseproject.setupProject
-
 plugins {
-    id("de.florianreuth.baseproject")
+    id("base.java")
+    id("base.application")
+    id("configuration.shaded_dependencies")
 }
 
-setupProject()
-configureApplication()
-
-val shade = configureShadedDependencies()
-
 dependencies {
-    shade("com.google.code.gson:gson:2.14.0")
-    shade("com.jayway.jsonpath:json-path:3.0.0")
-    shade("org.apache.logging.log4j:log4j-api:2.26.1")
-    shade("org.apache.logging.log4j:log4j-core:2.26.1")
+    shadedDependencies(libs.gson)
+    shadedDependencies(libs.json.path)
+    shadedDependencies(libs.log4j.api)
+    shadedDependencies(libs.log4j.core)
 }
 
